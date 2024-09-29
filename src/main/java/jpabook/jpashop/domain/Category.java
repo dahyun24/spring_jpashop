@@ -28,11 +28,17 @@ public class Category {
     // 다른 entity 매핑하는 것 처럼 하면 된다.
     // category = 계층구조,,, 어떻게 구현?
     // 내 부모 manytoone,, 반대로 내 자식은 여러가지 category를 가질 수 있음 onetomany
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    // manytoone 혹은 onetoone은 모두 찾아서 LAZY로 바꿔놔야한다.
     @JoinColumn(name = "parent_id")
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
 
+    //==연관관계 메서드==//
+    public void addChildCategory(Category child) {
+        this.child.add(child);
+        child.setParent(this);
+    }
 }

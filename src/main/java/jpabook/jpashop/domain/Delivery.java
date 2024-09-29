@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import static jakarta.persistence.FetchType.*;
+
 @Entity
 @Getter @Setter
 public class Delivery {
@@ -12,7 +14,7 @@ public class Delivery {
     @Column(name = "delivery_id")
     private Long id;
 
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery", fetch = LAZY)
     private Order order;
 
     @Embedded
@@ -23,6 +25,4 @@ public class Delivery {
     // ordinal은 다른 상태가 들어오면 망함,,, 밀리기 때문, 따라서 절대 쓰면 안된다.
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status; // [READY, COMP]
-
-
 }
