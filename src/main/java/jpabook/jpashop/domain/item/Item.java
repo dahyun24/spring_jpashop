@@ -28,4 +28,24 @@ public abstract class Item {
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 
+
+    // 핵심 비즈니스 로직을 직접 넣음,, stockQunatity가 item 안에 있으므로 관리가 쉽다.
+    //==비즈니스 로직==//
+    /**
+    * stock 증가
+     */
+     public void addStock(int quantity){
+        this.stockQuantitiy += quantity;
+    }
+
+    /**
+     * stock 감소
+     */
+    public void removeStock(int quantity){
+        int restStock = this.stockQuantitiy - quantity;
+        if (restStock < 0){
+            throw new NotEnoughStockException("need more Stock");
+        }
+        this.stockQuantitiy -= restStock;
+    }
 }
